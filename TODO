@@ -1,1 +1,9 @@
+
+- FIX NPM
+
 https://exerror.com/opensslerrorstack-error03000086digital-envelope-routinesinitialization-error/
+
+https://stackoverflow.com/questions/29349684/how-can-i-specify-the-required-node-js-version-in-package-json
+
+node --version
+v18.4.0
