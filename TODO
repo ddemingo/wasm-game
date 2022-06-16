@@ -7,3 +7,5 @@ https://stackoverflow.com/questions/29349684/how-can-i-specify-the-required-node
 
 node --version
 v18.4.0
+
+node version 16 works
