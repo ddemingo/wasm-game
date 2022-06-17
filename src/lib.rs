@@ -6,6 +6,7 @@ use wasm_bindgen::JsCast;
 
 #[macro_use]
 mod browser;
+mod engine;
 mod sierpinski;
 
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
@@ -27,20 +28,14 @@ pub fn main_js() -> Result<(), JsValue> {
         let json = browser::fetch_json("rhb.json")
             .await
             .expect("Could not fetch JSON");
+
         let sheet: Sheet = json
             .into_serde()
             .expect("Could not convert rhb.json into a Sheet structure");
 
-        // load image
-        let (tx, rx) = futures::channel::oneshot::channel::<()>();
-        let image = web_sys::HtmlImageElement::new().unwrap();
-        let callback = Closure::once(move || {
-            tx.send(()).unwrap();
-        });
-        image.set_onload(Some(callback.as_ref().unchecked_ref()));
-        callback.forget();
-        image.set_src("rhb.png");
-        rx.await.unwrap();
+        let image = engine::load_image("rhb.png")
+            .await
+            .expect("Could not load rhb.png image");
 
         let mut frame = -1;
         let mut x = 0.0;
