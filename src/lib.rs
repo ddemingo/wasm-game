@@ -1,6 +1,9 @@
+use futures::prelude::*;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen::JsCast;
 
+#[macro_use]
+mod browser;
 mod sierpinski;
 
 // When the `wee_alloc` feature is enabled, this uses `wee_alloc` as the global
@@ -16,22 +19,29 @@ pub fn main_js() -> Result<(), JsValue> {
     //#[cfg(debug_assertions)]
     console_error_panic_hook::set_once();
 
-    let window = web_sys::window().unwrap();
-    let document = window.document().unwrap();
+    //let document = browser::document().expect("No Document found");
 
-    // https://h3manth.com/content/html5-canvas-full-screen-and-full-page
-    let canvas = document
-        .get_element_by_id("canvas")
-        .unwrap()
-        .dyn_into::<web_sys::HtmlCanvasElement>()
-        .unwrap();
+    wasm_bindgen_futures::spawn_local(async move {
+        let context = browser::context("canvas").expect("");
 
-    let context = canvas
-        .get_context("2d")
-        .unwrap()
-        .unwrap()
-        .dyn_into::<web_sys::CanvasRenderingContext2d>()
-        .unwrap();
+        let (tx, rx) = futures::channel::oneshot::channel::<()>();
+
+        let image = web_sys::HtmlImageElement::new().unwrap();
+
+        let callback = Closure::once(move || {
+            tx.send(()).unwrap();
+        });
+        image.set_onload(Some(callback.as_ref().unchecked_ref()));
+        callback.forget();
+        image.set_src("Stone.png");
+        rx.await.unwrap();
+
+        context
+            .draw_image_with_html_image_element(&image, 0.0, 0.0)
+            .unwrap();
+    });
+
+    let context = browser::context("canvas").expect("");
     sierpinski::draw(
         &context,
         [(300.0, 0.0), (0.0, 600.0), (600.0, 600.0)],

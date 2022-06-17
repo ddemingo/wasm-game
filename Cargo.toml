@@ -18,10 +18,14 @@ lto = true
 #default = ["wee_alloc"]
 
 [dependencies]
+anyhow = "1.0"
 console_error_panic_hook = "0.1.5"
+futures = "0.3.17"
 getrandom = { version = "0.2.3", features = ["js"] }
-rand = "0.8.5"
-wasm-bindgen = "0.2.45"
+rand = "0.8"
+wasm-bindgen = "0.2.78"
+wasm-bindgen-futures = "0.4.31"
+
 
 # `wee_alloc` is a tiny allocator for wasm that is only ~1K in code size
 # compared to the default allocator's ~10K. However, it is slower than the default
@@ -37,6 +41,7 @@ features = [
     "Document",
     "Element",
     "HtmlCanvasElement",
+    "HtmlImageElement",
     "Window",
 ]
 
@@ -50,6 +55,4 @@ features = [
 
 [dev-dependencies]
 wasm-bindgen-test = "0.2.45"
-futures = "0.1.27"
 js-sys = "0.3.22"
-wasm-bindgen-futures = "0.3.22"
