@@ -1,27 +1,16 @@
 # wasm-game
 
-```sh
-$ curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.31.3/install.sh | bash
-$ nvm install node
 
-# Install rust
-$ curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-
-# Install wasm-pack
-$ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh 
-```
-
-Initialize the project:
+Install tools (if needeed):
 
 ```sh
-$ npm init rust-webpack 'your-package-name'
+$ ./install.sh 
 ```
 
-Install dependencies and wasm-pack:
+Install dependencies :
 
-```
+```sh
 $ npm install
-$ curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh 
 ```
 
 After the installation completes, you can now run a development server:
@@ -33,31 +22,16 @@ $ npm start
 When you see `｢wdm｣: Compiled successfully.` , you can browse your app
 at http://localhost:8080.
 
-## How to run in debug mode
 
 ```sh
 # Builds the project and opens it in a new browser tab. Auto-reloads when the project changes.
 npm start
-```
 
-## How to build in release mode
-
-```sh
 # Builds the project and places it into the `dist` folder.
 npm run build
-```
 
-## How to run unit tests
-
-```sh
 # Runs tests in Firefox
 npm test -- --firefox
-
-# Runs tests in Chrome
-npm test -- --chrome
-
-# Runs tests in Safari
-npm test -- --safari
 ```
 
 ## References
