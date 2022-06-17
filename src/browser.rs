@@ -1,6 +1,7 @@
 use anyhow::{anyhow, Result};
 use wasm_bindgen::{JsCast, JsValue};
-use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, Window};
+use wasm_bindgen_futures::JsFuture;
+use web_sys::{CanvasRenderingContext2d, Document, HtmlCanvasElement, Response, Window};
 
 macro_rules! log {
     ( $( $t:tt )* ) => {
@@ -51,7 +52,6 @@ pub fn document() -> Result<Document> {
         .ok_or_else(|| anyhow!("No Document Found"))
 }
 
-/*
 pub async fn fetch_with_str(resource: &str) -> Result<JsValue> {
     JsFuture::from(window()?.fetch_with_str(resource))
         .await
@@ -75,7 +75,7 @@ pub async fn fetch_json(json_path: &str) -> Result<JsValue> {
     })?)
     .await
     .map_err(|err| anyhow!("error fetching JSON {:#?}", err))
-}*/
+}
 
 pub fn window() -> Result<Window> {
     web_sys::window().ok_or_else(|| anyhow!("No Window found"))
