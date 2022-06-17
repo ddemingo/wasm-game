@@ -43,10 +43,12 @@ pub fn main_js() -> Result<(), JsValue> {
         rx.await.unwrap();
 
         let mut frame = -1;
+        let mut x = 0.0;
         let interval_callback = Closure::wrap(Box::new(move || {
             context.clear_rect(0.0, 0.0, 600.0, 600.0);
 
             frame = (frame + 1) % 8;
+            x = (x + 5.0) % 600.0;
             let frame_name = format!("Run ({}).png", frame + 1);
             let sprite = sheet.frames.get(&frame_name).expect("Cell not found");
             context
@@ -56,7 +58,7 @@ pub fn main_js() -> Result<(), JsValue> {
                     sprite.frame.y.into(),
                     sprite.frame.w.into(),
                     sprite.frame.h.into(),
-                    300.0,
+                    x,
                     300.0,
                     sprite.frame.w.into(),
                     sprite.frame.h.into(),
