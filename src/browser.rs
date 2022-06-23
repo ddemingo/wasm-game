@@ -1,4 +1,5 @@
 use anyhow::{anyhow, Result};
+use std::future::Future;
 use wasm_bindgen::{closure::WasmClosureFnOnce, prelude::Closure, JsCast, JsValue};
 use wasm_bindgen_futures::JsFuture;
 use web_sys::{
@@ -104,6 +105,13 @@ pub fn request_animation_frame(callback: &LoopClosure) -> Result<i32> {
     window()?
         .request_animation_frame(callback.as_ref().unchecked_ref())
         .map_err(|err| anyhow!("Cannot request animation frame {:#?}", err))
+}
+
+pub fn spawn_local<F>(future: F)
+where
+    F: Future<Output = ()> + 'static,
+{
+    wasm_bindgen_futures::spawn_local(future)
 }
 
 pub fn window() -> Result<Window> {

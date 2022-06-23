@@ -1,16 +1,10 @@
 # wasm-game
 
 
-Install tools (if needeed):
+Install tools and dependencies:
 
 ```sh
 $ ./install.sh 
-```
-
-Install dependencies :
-
-```sh
-$ npm install
 ```
 
 After the installation completes, you can now run a development server:
